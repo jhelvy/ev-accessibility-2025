@@ -1,0 +1,14 @@
+\begin{table}
+\centering
+\begin{tabular}[t]{llll}
+\toprule
+  & Conventional & BEV (Non-Tesla) & BEV (Tesla)\\
+\midrule
+Num. of Listings & 15,607,890 & 138,201 & 67,359\\
+Num. of Models & 25 & 12 & 2\\
+Num. of Dealerships & 59,652 & 13,728 & 8,666\\
+Mean age (years) & 3.8 & 3.5 & 3.4\\
+Mean price (\$USD) & \$16,114 & \$16,872 & \$51,220\\
+\bottomrule
+\end{tabular}
+\end{table}
