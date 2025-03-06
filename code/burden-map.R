@@ -107,45 +107,6 @@ make_map <- function(df, price) {
 
 # Make the maps ----
 
-map_any <- make_map(tracts_with_times, 'Any Price')
-
-# ggsave(
-#   here::here('figs', 'burden-time', 'burden_map_any_price.png'), 
-#   map_any, 
-#   width = 13, height = 13
-# )
-
-# Vertical
-map_any_v <- map_any +
-  facet_wrap(~ listing_year, ncol = 1) 
-
-# ggsave(
-#   here::here('figs', 'burden-time', 'burden_map_any_price_vertical.png'),  
-#   map_any_v,
-#   width = 8, height = 13
-# )
-
-map_25 <- make_map(tracts_with_times, 'Price <$25,000')
-
-# ggsave(
-#   here::here('figs', 'burden-time', 'burden_map_25k.png'), 
-#   map_25, 
-#   width = 13, height = 13
-# )
-
-# Vertical
-map_25_v <- map_25 +
-  facet_wrap(~ listing_year, ncol = 1) 
-
-# ggsave(
-#   here::here('figs', 'burden-time', 'burden_map_25k_vertical.png'),  
-#   map_25_v,
-#   width = 8, height = 13
-# )
-
-
-# Combined plot ----
-
 # Adjust the first plot
 map_any_v_a <- map_any_v +
   ggtitle("A. Any Price") +
@@ -179,7 +140,7 @@ combined_plot <- map_any_v_a / map_25_v_b +
   )
 
 ggsave(
-  here::here('figs', 'burden-time', 'burden_map_combined.png'),  
+  here::here('figs', 'burden-time-burden_map_combined.png'),
   combined_plot,
   width = 5, height = 13, dpi = 300
 )
@@ -227,7 +188,7 @@ map <- tracts_with_times %>%
   )
 
 ggsave(
-  here::here('figs', 'burden-time', 'burden_map_price_range.png'), 
+  here::here('figs', 'burden-time-burden_map_price_range.png'),
   map, 
   width = 13, height = 13
 )
