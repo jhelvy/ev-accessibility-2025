@@ -201,12 +201,3 @@ ggsave(
   plot_zev_new_used,
   height = 5, width = 9
 )
-
-plot_zev_new_used_v <- plot_zev_new_used +
-  facet_wrap(~inventory_type, ncol = 1) 
-
-ggsave(
-  here("figs", "dealer_bev_percent_new_used_vertical.png"),
-  plot_zev_new_used_v,
-  height = 9, width = 5
-)

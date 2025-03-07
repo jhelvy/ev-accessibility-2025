@@ -29,7 +29,7 @@ This may take some time as it installs all necessary packages. Once completed, y
 
 ### Data setup
 
-To replicate the results of this study, first download the ["data_local.zip"](https://filedn.com/lYURdAnVcCykBHec07i0c6j/ev-accessibility-2025/data_local.zip) file, unzip it, and put the resulting "data_local" folder in the root folder for this repository. This is a large folder (8.39GB) that contains the vehicle listings data and US Census data needed to replicate the results of this study and is too large to put in this public repository. A detailed description of each file in the folder is available in the "data_local/README.md" file.
+To replicate the results of this study, first download the ["data_local.zip"](https://filedn.com/lYURdAnVcCykBHec07i0c6j/ev-accessibility-2025/data_local.zip) file, unzip it, and put the resulting "data_local" folder in the root folder for this repository. This is a large folder (1.57GB) that contains the vehicle listings data and US Census data needed to replicate the results of this study and is too large to put in this public repository. A detailed description of each file in the folder is available in the "data_local/README.md" file.
 
 ### Data preparation calculations
 
@@ -48,11 +48,14 @@ File name | Expected run time (min) | Expected outcome
 
 ### Analysis calculations
 
-The other files in the "code" folder create the key figures and summary calculations in the paper. These include:
+To replicate all analysis figures created in the study, run each .R file in sequential order in the "code/2-analysis" folder. This table summarizes each file:
 
-- bev-percent-dealer.R
-- bev-percent-state.R
-- bevs-per-dealer.R
-- burden-map.R
-- burden-plots.R
-- tables.R
+File name | Expected run time (sec) | Expected outcome
+----------|-------------------|--------------------
+1-bev-percent-dealer.R | 5.0 | Creates figures "figs/dealer_bev_percent_all_markets.png" and "figs/dealer_bev_percent_new_used.png"
+2-bev-percent-state.R | 1.9 | Creates figure "figs/bars_bev_percent.png"
+3-bevs-per-dealer.R | 2.5 | Creates summary table of BEVs per dealership, saved in "tables/bev_percents.txt"
+4-burden-plots.R | 00 | text
+5-burden-map.R | 00 | text
+
+The last code file in this folder, "6-listings-summary-tables.R", cannot be run using the provided data in the "data_local" folder. This is because it requires additional data about the vehicles in the listings, including the model name, price, etc. These data cannot be made publicly available. The resulting summary tables of the vehicle listings are saved in "tables/data_summary..." txt files.

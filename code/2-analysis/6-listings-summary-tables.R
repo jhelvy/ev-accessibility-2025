@@ -16,21 +16,21 @@ make_dealer_dict(ds) %>%
 
 summary_df <- ds %>%
   mutate(
-    age = listing_year-year,
+    age = listing_year - year,
     powertrain = if_else(make == 'tesla', 'tesla', powertrain)
   ) %>% 
   select(
-    vehicle_type,inventory_type,dealer_id, powertrain, age, model, price
+    vehicle_type, inventory_type, dealer_id, powertrain, age, model, price
   ) %>% 
   collect() %>%
-  group_by(vehicle_type,inventory_type,powertrain) %>%
+  group_by(vehicle_type, inventory_type, powertrain) %>%
   summarize(
     n_listings = scales::comma(n()),
     n_models = as.character(length(unique(model))),
     n_dealers = scales::comma(length(unique(dealer_id))),
     age_mean = as.character(round(mean(age, na.rm = TRUE), 1)),
     price_mean = scales::dollar(round(mean(price, na.rm = TRUE)))
-  ) %>% 
+  ) %>%
   ungroup()
 
 # Format for latex
