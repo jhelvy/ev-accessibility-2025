@@ -41,10 +41,10 @@ File name | Expected run time (min) | Expected outcome
 2-tesla-locations.R | 4.6 | Geocodes Tesla stores stored in "data/tesla_dealer.csv" and makes Tesla BEV counts in "data/counts/tesla.parquet"
 3-counts.R | 0.5 | Creates all vehicle summary counts data files in the "data/counts" folder except the "tesla.parquet" file.
 4-distances.R | 16.1 | Computes linear distances from census tract centroids to nearby dealerships, with results stored in the "data_local" folder as "dealer_distances_all.parquet" and "dealer_distances_25.parquet"
-5-distance-to-time.R | 
-6-min-times.R | 
-7-time-burden.R | 
-8-map-data.R | 
+5-distance-to-time.R | 75 | This file computes the driving time between all pairs of census tract centroids and dealerships in the "dealer_distances_all.parquet" and "dealer_distances_25.parquet" files. These travel times are stored in the  "data_local/dealer_times.parquet" file.
+6-min-times.R |   | 
+7-time-burden.R |   | 
+8-map-data.R |   | 
 
 
 ### Analysis calculations

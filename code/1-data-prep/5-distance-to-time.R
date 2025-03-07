@@ -143,51 +143,42 @@ coords_tract <- read_parquet(here::here('data', 'tract_dt.parquet')) %>%
 
 # Compute times ----
 
-dealer_distances_all_sep <- read_parquet(
-  here::here('data_local', 'sep', 'dealer_distances_all.parquet')
-)
-dealer_distances_25_sep <- read_parquet(
-  here::here('data_local', 'sep', 'dealer_distances_25.parquet')
-)
 dealer_distances_all_agg <- read_parquet(
-  here::here('data_local', 'agg', 'dealer_distances_all.parquet')
+  here::here('data_local', 'dealer_distances_all.parquet')
 )
 dealer_distances_25_agg <- read_parquet(
-  here::here('data_local', 'agg', 'dealer_distances_25.parquet')
+  here::here('data_local', 'dealer_distances_25.parquet')
 )
 
-pairs <- rbind(
-  dealer_distances_all_sep, dealer_distances_25_sep, 
-  dealer_distances_all_agg, dealer_distances_25_agg
-) %>% 
+pairs <- rbind(dealer_distances_all_agg, dealer_distances_25_agg) %>% 
   distinct(dealer_id, GEOID)
 
 # Join on coords
 pairs <- pairs %>% 
   left_join(coords_tract, by = 'GEOID') %>% 
   left_join(coords_dealer, by = 'dealer_id') 
-pairs1 <- pairs[1:3500000,]
-pairs2 <- pairs[3500001:nrow(pairs),]
+pairs1 <- pairs[1:2000000,]
+pairs2 <- pairs[2000001:nrow(pairs),]
 rm(pairs)
 gc()
 
 # Step 1: Process all batches in two batches 
 # (because of RAM limits on {future})
 
-tictoc::tic()
+# tictoc::tic()
 get_travel_times(
   pairs1,
   batch_dir = file.path("data_local", "times1", "batches")
 )
-tictoc::toc()
+# tictoc::toc()
 # 2684.881 sec elapsed, 44.75 min
 
-tictoc::tic()
+# tictoc::tic()
 get_travel_times(
   pairs2,
   batch_dir = file.path("data_local", "times2", "batches")
 )
-tictoc::toc()
+# tictoc::toc()
 # 2398.471 sec elapsed, 39.97 min
 
 # Step 2: Once all batches are done, combine them
@@ -213,68 +204,3 @@ df %>%
   write_parquet(
     here::here('data_local', 'dealer_times.parquet')
   )
-
-
-
-
-
-
-# Missing ----
-
-# Fill in any final missing pairs from google maps
-
-dealer_times <- read_parquet(here::here('data_local', 'dealer_times.parquet'))
-
-get_missing <- function(path, dealer_times) {
-  missing <- read_parquet(path) %>% 
-    left_join(dealer_times, by = c('GEOID', 'dealer_id')) %>% 
-    filter(is.na(duration_min)) %>% 
-    distinct(GEOID, dealer_id)
-  return(missing)
-}
-
-missing1 <- get_missing(
-  here::here('data_local', 'sep', 'dealer_distances_all.parquet'), 
-  dealer_times
-)
-missing2 <- get_missing(
-  here::here('data_local', 'sep', 'dealer_distances_25.parquet'), 
-  dealer_times
-)
-missing3 <- get_missing(
-  here::here('data_local', 'agg', 'dealer_distances_all.parquet'), 
-  dealer_times
-)
-missing4 <- get_missing(
-  here::here('data_local', 'agg', 'dealer_distances_25.parquet'), 
-  dealer_times
-)
-
-missing <- bind_rows(missing1, missing2, missing3, missing4) %>% 
-  distinct() %>% 
-  left_join(coords_tract, by = 'GEOID') %>% 
-  left_join(coords_dealer, by = 'dealer_id') 
-
-get_travel_times(
-  missing,
-  batch_dir = file.path("data_local", "times3", "batches")
-)
-
-missing <- open_dataset(file.path("data_local", "times3")) %>%
-    collect()
-
-# Check for any failures
-temp <- df %>% 
-  filter(attempt_successful == FALSE)
-dim(temp)
-
-# Final merge
-df %>% 
-  select(
-    GEOID, dealer_id, duration_min = duration_minutes, distance_trip_km
-  ) %>% 
-  distinct() %>% 
-  write_parquet(
-    here::here('data_local', 'dealer_times.parquet')
-  )
-
