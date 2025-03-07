@@ -21,17 +21,11 @@ read_dt <- function(path) {
 }
 
 df_all_agg <- read_dt(
-  here::here('data_local', 'agg', 'burden_time_all.parquet')) %>% 
+  here::here('data_local', 'burden_time_all.parquet')) %>% 
   mutate(price_range = 'Any price')
 df_25_agg <- read_dt(
-  here::here('data_local', 'agg', 'burden_time_25.parquet')) %>% 
+  here::here('data_local', 'burden_time_25.parquet')) %>% 
   mutate(price_range = '$25k')
-# df_all_sep <- read_dt(
-#   here::here('data_local', 'sep', 'burden_time_all.parquet')) %>% 
-#   mutate(price_range = 'Any price')
-# df_25_sep <- read_dt(
-#   here::here('data_local', 'sep', 'burden_time_25.parquet')) %>% 
-#   mutate(price_range = '$25k')
 df <- bind_rows(df_all_agg, df_25_agg) 
 
 df1 <- df %>% 
@@ -79,10 +73,10 @@ df_national %>%
     plot.background = element_rect(fill = 'white', color = NA)
   )
 
-ggsave(
-  filename = here::here('figs', 'burden-time-mean_national_all_agg.png'),
-  width = 8, height = 6
-)
+# ggsave(
+#   filename = here::here('figs', 'burden-time-mean_national_all_agg.png'),
+#   width = 8, height = 6
+# )
 
 # Class ----
 
@@ -137,10 +131,10 @@ df1 %>%
     axis.line.y = element_blank()
   )
 
-ggsave(
-  filename = here::here('figs', 'burden-time-mean_class_all_agg.png'),
-  width = 7, height = 6
-)
+# ggsave(
+#   filename = here::here('figs', 'burden-time-mean_class_all_agg.png'),
+#   width = 7, height = 6
+# )
 
 
 # Price range ----
@@ -205,7 +199,7 @@ df1 %>%
   panel_border()
 
 ggsave(
-  filename = here::here('figs', 'burden-time-mean_class_price_range.png'),
+  filename = here::here('figs', 'burden-time-mean-class-price.png'),
   width = 10, height = 5.5
 )
 
@@ -284,10 +278,10 @@ df %>%
     values = c('black', color_nontesla, color_ev, color_tesla)
   ) 
 
-ggsave(
-  filename = here::here('figs', 'burden-time-mean_markets_car_count.png'),
-  width = 12, height = 5
-)
+# ggsave(
+#   filename = here::here('figs', 'burden-time-mean_markets_car_count.png'),
+#   width = 12, height = 5
+# )
 
 
 # Income scatterplot ----
@@ -315,7 +309,7 @@ df_all_agg %>%
   )
 
 ggsave(
-  filename = here::here('figs', 'burden-time-mean_income_scatterplot.png'),
+  filename = here::here('figs', 'burden-time-mean-income-scatterplot.png'),
   width = 10, height = 4
 )
 

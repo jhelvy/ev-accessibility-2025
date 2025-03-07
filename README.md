@@ -55,7 +55,7 @@ File name | Expected run time (sec) | Expected outcome
 1-bev-percent-dealer.R | 5.0 | Creates figures "figs/dealer_bev_percent_all_markets.png" and "figs/dealer_bev_percent_new_used.png"
 2-bev-percent-state.R | 1.9 | Creates figure "figs/bars_bev_percent.png"
 3-bevs-per-dealer.R | 2.5 | Creates summary table of BEVs per dealership, saved in "tables/bev_percents.txt"
-4-burden-plots.R | 00 | text
+4-burden-plots.R | 5.5 | Creates summary plots of the BEV access burden metric: "figs/burden-time-mean-class-price.png" and "figs/burden-time-mean-income-scatterplot.png"
 5-burden-map.R | 00 | text
 
 The last code file in this folder, "6-listings-summary-tables.R", cannot be run using the provided data in the "data_local" folder. This is because it requires additional data about the vehicles in the listings, including the model name, price, etc. These data cannot be made publicly available. The resulting summary tables of the vehicle listings are saved in "tables/data_summary..." txt files.
