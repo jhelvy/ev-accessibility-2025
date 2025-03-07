@@ -179,6 +179,6 @@ dt_bev_bar %>%
   ) 
 
 ggsave(
-  here::here("figs", "bars_bev_percent.png"),
+  here::here("figs", "bars-bev-percent.png"),
   width = 8, height = 9
 )
