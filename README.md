@@ -2,6 +2,8 @@
 
 Replication code and data for paper *Mapping Electric Vehicle Accessibility in the United States*, by Lujin Zhao, Michael Mann, and John Paul Helveston
 
+All content is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/)
+
 ## Installation
 
 To replicate our results in this study, ensure that you have properly installed the required software. First, install the latest version of R and RStudio (RStudio is not required, but highly recommended):
