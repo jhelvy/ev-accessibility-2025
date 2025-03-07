@@ -29,33 +29,17 @@ This may take some time as it installs all necessary packages. Once completed, y
 
 ### Data setup
 
-To replicate the results of this study, first download the ["data_local.zip"](https://filedn.com/lYURdAnVcCykBHec07i0c6j/ev-accessibility-2025/data_local.zip) file, unzip it, and put the resulting "data_local" folder in the root folder for this repository. This is a large folder (8.39GB) that contains the data needed to replicate the results of this study and is too large to put in this public repository.
-
-The primary data is the "data_local/listings.parquet" file, which contains records of vehicle listings data. The original data is from marketcheck.com, but restrictions apply to the availability of the raw data, which were used under a license agreement for the current study and so are not publicly available. The "data_local/listings.parquet" file is a processed version of the original data that only includes the necessary variables to replicate the results in this study. These variables include:
-
-Variable | Description
----|---------
-"dealer_id" | Unique identifier for each dealership
-"inventory_type" | New or used vehicle
-"year" | Vehicle model year
-"powertrain" | Vehicle powertrain: "conventional", "hybrid", "bev", or "phev"
-"vehicle_type" | "car" or "suv"
-"status_date" | Date listing was collected from dealership website
-"listing_year" | Year vehicle was listed on dealership website
-"state" | State vehicle is listed in
-"latitude" | Latitude coordinate of dealership with vehicle listing
-"longitude" | Longitude coordinate of dealership with vehicle listing
-"price_under_25" | Logical (TRUE or FALSE): is the listing price under $25,000?
+To replicate the results of this study, first download the ["data_local.zip"](https://filedn.com/lYURdAnVcCykBHec07i0c6j/ev-accessibility-2025/data_local.zip) file, unzip it, and put the resulting "data_local" folder in the root folder for this repository. This is a large folder (8.39GB) that contains the vehicle listings data and US Census data needed to replicate the results of this study and is too large to put in this public repository. A detailed description of each file in the folder is available in the "data_local/README.md" file.
 
 ### Data preparation calculations
 
 Once the "data_local" folder is in the project root folder, the code in the "code/1-data-prep" folder should be run one file at a time in sequential order to make the primary calculations needed to replicate the results in this study. Some of these calculations take a long time to run, please read the comments in each .R file carefully. This table summarizes each data prep file:
 
-File name | Expected run time | Expected outcome
+File name | Expected run time (min) | Expected outcome
 ----------|-------------------|--------------------
-1-census.R | 
-2-tesla-locations.R | 
-3-counts.R | 
+1-census.R | 1.2 | Formats census tract demographic and shape data at "data/tract_dt.parquet"
+2-tesla-locations.R | 4.6 | Geocodes Tesla stores stored in "data/tesla_dealer.csv" and makes Tesla BEV counts in "data/counts/tesla.parquet"
+3-counts.R | 0.5 | Creates all vehicle summary counts data files in the "data/counts" folder except the "tesla.parquet" file.
 4-distances.R | 
 5-distance-to-time.R | 
 6-min-times.R | 

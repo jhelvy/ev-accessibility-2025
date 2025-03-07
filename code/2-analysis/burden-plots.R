@@ -26,13 +26,13 @@ df_all_agg <- read_dt(
 df_25_agg <- read_dt(
   here::here('data_local', 'agg', 'burden_time_25.parquet')) %>% 
   mutate(price_range = '$25k')
-df_all_sep <- read_dt(
-  here::here('data_local', 'sep', 'burden_time_all.parquet')) %>% 
-  mutate(price_range = 'Any price')
-df_25_sep <- read_dt(
-  here::here('data_local', 'sep', 'burden_time_25.parquet')) %>% 
-  mutate(price_range = '$25k')
-df <- bind_rows(df_all_agg, df_25_agg, df_all_sep, df_25_sep) 
+# df_all_sep <- read_dt(
+#   here::here('data_local', 'sep', 'burden_time_all.parquet')) %>% 
+#   mutate(price_range = 'Any price')
+# df_25_sep <- read_dt(
+#   here::here('data_local', 'sep', 'burden_time_25.parquet')) %>% 
+#   mutate(price_range = '$25k')
+df <- bind_rows(df_all_agg, df_25_agg) 
 
 df1 <- df %>% 
   filter(car_count == 1) %>% 
@@ -209,137 +209,6 @@ ggsave(
   width = 10, height = 5.5
 )
 
-# Market & price ----
-
-df1 %>%
-  filter(inventory_type != 'all') %>% 
-  group_by(listing_year, inventory_type, price_range, class) %>%
-  summarise(time = weighted.mean(time, pop)) %>% 
-  ungroup() %>% 
-  rbind(
-    df_national %>% 
-      filter(inventory_type != 'all') %>% 
-      select(listing_year, inventory_type, price_range, class, time = timeMean)
-  ) %>% 
-  mutate(
-    inventory_type = str_to_title(inventory_type), 
-    price_range = ifelse(price_range == '$25k', '< $25,000', price_range)
-  ) %>% 
-  ggplot(aes(x = listing_year, y = time, color = class)) +
-  geom_point(aes(x = listing_year, y = time, color = class)) +
-  geom_line(aes(group = class)) +
-  facet_grid(inventory_type ~ price_range) +
-  labs(
-    title = "Population-weighted mean additional travel time to nearest BEV",  
-    x = "Year",
-    y = "Minutes",
-    color = 'Region'
-  ) +
-  scale_y_continuous(
-    breaks = seq(0, 150, 50),
-    limits = c(0, 150),
-    expand = expansion(mult = c(0, 0.05))
-  ) +
-  coord_cartesian(ylim = c(0, 150)) +
-  theme_minimal_hgrid(font_family = font, font_size = 16) +
-  theme(
-    strip.background = element_rect("grey80"),
-    panel.background = element_rect(fill = 'white', color = NA),
-    plot.background = element_rect(fill = 'white', color = NA), 
-    legend.position = c(0.8, 0.85),
-    plot.title.position = "plot", 
-    axis.line.y = element_blank()
-  )+
-  scale_color_manual(
-    values = c('black', color_nontesla, color_ev, color_tesla)
-  ) 
-
-ggsave(
-  filename = here::here('figs', 'burden-time-mean_class_sep_prices.png'),
-  width = 10, height = 8
-)
-
-
-# Inventory type ----
-
-df1 %>%
-  filter(price_range == 'Any price') %>% 
-  group_by(listing_year, inventory_type, class) %>%
-  summarise(time = weighted.mean(time, pop)) %>% 
-  ungroup() %>% 
-  rbind(
-    df_national %>% 
-      filter(price_range == 'Any price') %>% 
-      select(listing_year, inventory_type, class, time = timeMean)
-  ) %>% 
-  mutate(
-    inventory_type = ifelse(
-      inventory_type == 'all', 'Any BEV (New or Used)', ifelse(
-        inventory_type == 'new', 'New BEV', 'Used BEV'
-      )), 
-    linetype = ifelse(class == 'National', 'two', 'one')
-  ) %>% 
-  ggplot(aes(x = listing_year, y = time, color = class)) +
-  geom_point(aes(x = listing_year, y = time, color = class)) +
-  geom_line(aes(group = class, linetype = linetype)) +
-  facet_wrap(~inventory_type) +
-  labs(
-    title = "Population-weighted mean additional travel time to nearest BEV",  
-    x = "Year",
-    y = "Minutes",
-    color = 'Region'
-  ) +
-  scale_y_continuous(
-    breaks = seq(0, 50, 10),
-    limits = c(0, 50),
-    expand = expansion(mult = c(0.02, 0.05))
-  ) +
-  geom_text(
-    data = data.frame(
-      listing_year = c(
-        rep(2018.5, 4), # Any BEV
-        rep(2018.5, 4), # New
-        c(2018.5, 2018.5, 2018.5, 2017) # Used
-      ),
-      time = c(
-        # Any BEV panel
-        25, 14, 3, 7.5, # rural, suburban, urban, national
-        # New BEV panel
-        32, 21, 7, 13,
-        # Used BEV panel
-        27, 16, 4, 11.5
-      ),
-      class = rep(c('Rural', 'Suburban', 'Urban', 'National'), 3), 
-      inventory_type = rep(c(
-        'Any BEV (New or Used)', 'New BEV', 'Used BEV'
-      ), each = 4)
-    ),
-    mapping = aes(x = listing_year, y = time, color = class, label = class), 
-    family = font, 
-    fontface = 'bold', 
-    size = 4.5
-  ) +
-  theme_minimal_hgrid(font_family = font, font_size = 16) +
-  theme(
-    strip.background = element_rect("grey80"),
-    panel.background = element_rect(fill = 'white', color = NA),
-    plot.background = element_rect(fill = 'white', color = NA), 
-    legend.position = "none",
-    plot.title.position = "plot", 
-    axis.line.x = element_blank(), 
-    axis.ticks.x = element_blank()
-  ) +
-  panel_border() +
-  scale_color_manual(
-    values = c('black', color_nontesla, color_ev, color_tesla)
-  ) 
-
-ggsave(
-  filename = here::here('figs', 'burden-time-mean_markets.png'),
-  width = 12, height = 5
-)
-
-
 # Car count ----
 
 df %>%
@@ -450,52 +319,6 @@ ggsave(
   width = 10, height = 4
 )
 
-# Income barplot ----
-
-df_income <- df_all_agg %>% 
-  filter(!is.na(med_inc_hh)) %>% 
-  filter(car_count == 1) %>% 
-  mutate(
-    med_inc_hh = med_inc_hh / 10^3,
-    inc_bucket = ifelse(
-    (med_inc_hh >= 0) & (med_inc_hh < 25), "$0 - $25k", ifelse(
-    (med_inc_hh >= 25) & (med_inc_hh < 50), "$25k - $50k", ifelse(
-    (med_inc_hh >= 50) & (med_inc_hh < 75), "$50k - $75k", ifelse(
-    (med_inc_hh >= 75) & (med_inc_hh < 100), "$75k - $100k", ifelse(
-    (med_inc_hh >= 100) & (med_inc_hh < 125), "$100k - $125k", ifelse(
-    (med_inc_hh >= 125) & (med_inc_hh < 150), "$125k - $150k", ifelse(
-    (med_inc_hh >= 150) & (med_inc_hh < 200), "$150k - $200k", ">$200k"
-    ))))))), 
-    inc_bucket = factor(inc_bucket, c(
-    "$0 - $25k", "$25k - $50k", "$50k - $75k", "$75k - $100k", 
-    "$100k - $125k", "$125k - $150k", "$150k - $200k", ">$200k"
-    ))
-  ) %>%
-  group_by(inc_bucket, listing_year) %>% 
-  summarise(timeMean = weighted.mean(time, pop)) %>% 
-  ungroup()
-
-df_income %>% 
-  ggplot() +
-  geom_col(aes(x = listing_year, y = timeMean)) +
-  facet_wrap(vars(inc_bucket), nrow = 1) +
-  scale_y_continuous(
-    expand = expansion(mult = c(0, 0.05))
-  ) +
-  theme_minimal_grid() +
-  panel_border() +
-  theme(
-    strip.background = element_rect("grey80"),
-    panel.background = element_rect(fill = 'white', color = NA),
-    plot.background = element_rect(fill = 'white', color = NA), 
-    plot.title.position = "plot"
-  ) 
-
-
-ggsave(
-  filename = here::here('figs', 'burden-time-mean_income_bars.png'),
-  width = 13, height = 3
-)
 
 # Number of tracts >= 60 minutes 
 
@@ -535,8 +358,6 @@ quick_summary(df1, 2021, 'Rural', 'Any price', 60)
 # In 2021, only 8.8% of census tracts had a BEV access burden greater
 # than 15 minutes, and just 3.5% had a burden greater than 30 minutes. 
 # Of those, 80% were in rural areas.  
-
-# Dumbbell
 
 df_totals <- df1 %>% 
   filter(inventory_type == 'all') %>% 

@@ -18,6 +18,7 @@ library(future)
 library(furrr)
 library(scattermore)
 library(ggtext)
+library(tidygeocoder)
 
 options(arrow.unsafe_metadata = TRUE)
 
