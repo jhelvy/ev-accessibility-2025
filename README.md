@@ -2,7 +2,7 @@
 
 Replication code and data for paper *Mapping Electric Vehicle Accessibility in the United States*, by Lujin Zhao, Michael Mann, and John Paul Helveston
 
-All content is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/)
+All content is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/) (CC BY-SA 4.0)
 
 ## Installation
 
@@ -49,7 +49,21 @@ Variable | Description
 
 ### Data preparation calculations
 
-Once the "data_local" folder is in the project root folder, the code in the "code/data-prep" folder should be run one file at a time in sequential order to make the primary calculations needed to replicate the results in this study. Some of these calculations take a long time to run, please read the comments in each .R file carefully.
+Once the "data_local" folder is in the project root folder, the code in the "code/1-data-prep" folder should be run one file at a time in sequential order to make the primary calculations needed to replicate the results in this study. Some of these calculations take a long time to run, please read the comments in each .R file carefully. This table summarizes each data prep file:
+
+File name | Expected run time | Expected outcome
+----------|-------------------|--------------------
+1-census.R | 
+2-tesla-locations.R | 
+3-counts.R | 
+4-distances.R | 
+5-distance-to-time.R | 
+6-min-times.R | 
+7-time-burden.R | 
+8-map-data.R | 
+
+
+### Analysis calculations
 
 The other files in the "code" folder create the key figures and summary calculations in the paper. These include:
 
