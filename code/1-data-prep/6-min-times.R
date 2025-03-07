@@ -22,62 +22,26 @@ get_min_times <- function(dt) {
 
 dealer_times <- read_parquet(here::here('data_local', 'dealer_times.parquet'))
 
-# New and used separate ----
-
-# All vehicles ----
-
 dealer_dt <- read_parquet(
   # Start with the linear distances data
-  here::here('data_local', 'sep', 'dealer_distances_all.parquet')
-) %>% 
-  # Join on trip duration and distances
-  left_join(dealer_times, by = c('GEOID', 'dealer_id'))
-
-dealer_dt <- get_min_times(dealer_dt)
-
-write_parquet(dealer_dt, here('data_local', 'sep', 'min_times_all.parquet'))
-
-# $25k vehicles ----
-
-dealer_dt <- read_parquet(
-  # Start with the linear distances data
-  here::here('data_local', 'sep', 'dealer_distances_25.parquet')
-) %>% 
-  # Join on trip duration and distances
-  left_join(dealer_times, by = c('GEOID', 'dealer_id'))
-
-dealer_dt <- get_min_times(dealer_dt)
-
-write_parquet(dealer_dt, here('data_local', 'sep', 'min_times_25.parquet'))
-
-
-
-
-
-# Aggregate markets ----
-
-# All vehicles ----
-
-dealer_dt <- read_parquet(
-  # Start with the linear distances data
-  here::here('data_local', 'agg', 'dealer_distances_all.parquet')
+  here::here('data_local', 'dealer_distances_all.parquet')
 ) %>% 
   # Join on trip duration and distances
   left_join(dealer_times, by = c('GEOID', 'dealer_id')) 
 
 dealer_dt <- get_min_times(dealer_dt)
 
-write_parquet(dealer_dt, here('data_local', 'agg', 'min_times_all.parquet'))
+write_parquet(dealer_dt, here('data_local', 'min_times_all.parquet'))
 
 # $25k vehicles ----
 
 dealer_dt <- read_parquet(
   # Start with the linear distances data
-  here::here('data_local', 'agg', 'dealer_distances_25.parquet')
+  here::here('data_local', 'dealer_distances_25.parquet')
 ) %>% 
   # Join on trip duration and distances
   left_join(dealer_times, by = c('GEOID', 'dealer_id')) 
 
 dealer_dt <- get_min_times(dealer_dt)
 
-write_parquet(dealer_dt, here('data_local', 'agg', 'min_times_25.parquet'))
+write_parquet(dealer_dt, here('data_local', 'min_times_25.parquet'))

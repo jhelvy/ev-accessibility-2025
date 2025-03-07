@@ -33,7 +33,7 @@ To replicate the results of this study, first download the ["data_local.zip"](ht
 
 ### Data preparation calculations
 
-Once the "data_local" folder is in the project root folder, the code in the "code/1-data-prep" folder should be run one file at a time in sequential order to make the primary calculations needed to replicate the results in this study. Some of these calculations take a long time to run, please read the comments in each .R file carefully. This table summarizes each data prep file:
+Once the "data_local" folder is in the project root folder, the code in the "code/1-data-prep" folder should be run one file at a time in sequential order to make the primary calculations needed to replicate the results in this study. Each of these have already been run and the resulting data files are stored in the "data" or "data_local" folders. However, if you would like replicate these files from the original data sources, run each file in sequential order. Some of these calculations take a long time to run, please read the comments in each .R file carefully. Some data files end in "_all" and others end in "_25" - the difference is a reflection of the vehicle prices, with "_all" referring to all vehicles regardless of price, and "_25" referring to only vehicles under $25,000 in price. This table summarizes each data prep file:
 
 File name | Expected run time (min) | Expected outcome
 ----------|-------------------|--------------------
@@ -42,8 +42,8 @@ File name | Expected run time (min) | Expected outcome
 3-counts.R | 0.5 | Creates all vehicle summary counts data files in the "data/counts" folder except the "tesla.parquet" file.
 4-distances.R | 16.1 | Computes linear distances from census tract centroids to nearby dealerships, with results stored in the "data_local" folder as "dealer_distances_all.parquet" and "dealer_distances_25.parquet"
 5-distance-to-time.R | 75 | This file computes the driving time between all pairs of census tract centroids and dealerships in the "dealer_distances_all.parquet" and "dealer_distances_25.parquet" files. These travel times are stored in the  "data_local/dealer_times.parquet" file.
-6-min-times.R |   | 
-7-time-burden.R |   | 
+6-min-times.R | 0.2 | Creates the "min_times_all.parquet" and "min_times_25.parquet" files in the "data_local" folder. These contain the driving times to the closest BEV and CV from each census tract centroid.
+7-time-burden.R | 0.05 | Creates the "burden_time_all.parquet" and "burden_time_25.parquet" files in the "data_local" folder. These take the minimum times computed in the last step and calculate the "burden", which is the difference between the BEV and CV times.
 8-map-data.R |   | 
 
 

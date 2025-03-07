@@ -36,41 +36,19 @@ compute_burden_by_count <- function(df) {
   return(df_burden)
 }
 
-# New and used separate ----
-
 # All vehicles ----
 
 df_time <- read_parquet(here::here(
-  'data_local', 'sep', 'min_times_all.parquet'))
+  'data_local', 'min_times_all.parquet'))
 df_burden <- compute_burden_by_count(df_time)
 write_parquet(df_burden, here::here(
-  'data_local', 'sep', 'burden_time_all.parquet'))
+  'data_local', 'burden_time_all.parquet'))
 
 # $25k vehicles ----
 
 df_time <- read_parquet(here::here(
-  'data_local', 'sep', 'min_times_25.parquet'))
+  'data_local', 'min_times_25.parquet'))
 df_burden <- compute_burden_by_count(df_time)
 write_parquet(df_burden, here::here(
-  'data_local', 'sep', 'burden_time_25.parquet'))
-
-
-# Aggregate markets ----
-
-
-# All vehicles ----
-
-df_time <- read_parquet(here::here(
-  'data_local', 'agg', 'min_times_all.parquet'))
-df_burden <- compute_burden_by_count(df_time)
-write_parquet(df_burden, here::here(
-  'data_local', 'agg', 'burden_time_all.parquet'))
-
-# $25k vehicles ----
-
-df_time <- read_parquet(here::here(
-  'data_local', 'agg', 'min_times_25.parquet'))
-df_burden <- compute_burden_by_count(df_time)
-write_parquet(df_burden, here::here(
-  'data_local', 'agg', 'burden_time_25.parquet'))
+  'data_local', 'burden_time_25.parquet'))
 
