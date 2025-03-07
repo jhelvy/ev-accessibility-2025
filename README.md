@@ -44,8 +44,7 @@ File name | Expected run time (min) | Expected outcome
 5-distance-to-time.R | 75 | This file computes the driving time between all pairs of census tract centroids and dealerships in the "dealer_distances_all.parquet" and "dealer_distances_25.parquet" files. These travel times are stored in the  "data_local/dealer_times.parquet" file.
 6-min-times.R | 0.2 | Creates the "min_times_all.parquet" and "min_times_25.parquet" files in the "data_local" folder. These contain the driving times to the closest BEV and CV from each census tract centroid.
 7-time-burden.R | 0.05 | Creates the "burden_time_all.parquet" and "burden_time_25.parquet" files in the "data_local" folder. These take the minimum times computed in the last step and calculate the "burden", which is the difference between the BEV and CV times.
-8-map-data.R |   | 
-
+8-map-data.R | 0.09 | Retrieves and saves the census tract shape file data from the {tigris} package and saves the files in "data/states_sf.qs" and "data/tracts.qs".
 
 ### Analysis calculations
 
