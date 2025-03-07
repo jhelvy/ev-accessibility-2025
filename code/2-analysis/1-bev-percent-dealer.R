@@ -123,7 +123,7 @@ plot_zev <- dt_zev %>%
 plot_zev
 
 ggsave(
-  here("figs", "dealer_bev_percent_all_markets.png"),
+  here("figs", "dealer-bev-percent-all-markets.png"),
   plot_zev,
   height = 5, width = 6.5
 )
@@ -197,7 +197,7 @@ plot_zev_new_used <- dt_zev_new_used %>%
 plot_zev_new_used
 
 ggsave(
-  here("figs", "dealer_bev_percent_new_used.png"),
+  here("figs", "dealer-bev-percent-new-used.png"),
   plot_zev_new_used,
   height = 5, width = 9
 )
